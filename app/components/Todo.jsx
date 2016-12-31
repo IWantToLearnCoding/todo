@@ -1,12 +1,15 @@
 var React = require('react');
 
 var Todo = React.createClass({
-	render: function(){
+	
+	render: function () {
+		var {text} = this.props;
+		var {id} = this.props;
 		return (
 			<div>
-				Todo
+				{id}. {text}
 			</div>
-		);
+		);		
 	}
 });
 
