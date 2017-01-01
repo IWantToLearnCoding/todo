@@ -11,11 +11,13 @@ var TodoContainer = React.createClass({
 			todos: [
 				{
 					id: uuid(),
-					text: 'go to market'
+					text: 'go to market',
+					completed: false
 				},
 				{
 					id: uuid(),
-					text: 'live life'
+					text: 'live life',
+					completed: true
 				}
 			],
 			showCompleted: false,
@@ -35,17 +37,28 @@ var TodoContainer = React.createClass({
 			todos: [ ...this.state.todos, 
 			{
 				id: uuid(),
-				text: newTodo
+				text: newTodo,
+				completed: false
 			}]
 		});
 	},
+
+	handleToggle: function(id) {
+		var updatedTodos = this.state.todos.map((todo) => {
+			if(todo.id === id) {
+				todo.completed = !todo.completed;
+			}
+			return todo;
+		});
+		this.setState({todos: updatedTodos});
+	}, 
 
 	render: function(){
 		var {todos} = this.state;
 		return (
 			<div>
 				<TodoSearch onSearch={this.handleSearch}/>
-				<TodoList todos={todos}/>
+				<TodoList todos={todos} onToggle={this.handleToggle}/>
 				<AddTodo onAddTodo={this.handleAddTodo}/>
 			</div>
 		);

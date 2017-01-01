@@ -20,4 +20,20 @@ describe('TodoContainer', () => {
 		expect(todoContainer.state.todos[0].text).toBe(newTodo);
 
 	});
+
+	it('should toggle completed value when handleToggle called', () => {
+		var todoData = {
+			id: 1,
+			text: 'Testing',
+			completed: false
+		};
+
+		var todoContainer = TestUtils.renderIntoDocument(<TodoContainer/>);
+		todoContainer.setState({todos: [todoData]});
+
+		expect(todoContainer.state.todos[0].text).toBe('Testing');
+		expect(todoContainer.state.todos[0].completed).toBe(false);
+		todoContainer.handleToggle(1);
+		expect(todoContainer.state.todos[0].completed).toBe(true);
+	});
 });
