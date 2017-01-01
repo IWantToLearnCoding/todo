@@ -2,6 +2,7 @@ var React = require('react');
 var TodoList = require('TodoList');
 var AddTodo = require('AddTodo');
 var TodoSearch = require('TodoSearch');
+var uuid = require('node-uuid');
 
 var TodoContainer = React.createClass({
 	
@@ -9,11 +10,11 @@ var TodoContainer = React.createClass({
 		return {
 			todos: [
 				{
-					id: 1,
+					id: uuid(),
 					text: 'go to market'
 				},
 				{
-					id: 2,
+					id: uuid(),
 					text: 'live life'
 				}
 			],
@@ -30,7 +31,13 @@ var TodoContainer = React.createClass({
 	},
 
 	handleAddTodo: function(newTodo) {
-		alert('new todo' + newTodo);
+		this.setState({
+			todos: [ ...this.state.todos, 
+			{
+				id: uuid(),
+				text: newTodo
+			}]
+		});
 	},
 
 	render: function(){
