@@ -3,23 +3,13 @@ var TodoList = require('TodoList');
 var AddTodo = require('AddTodo');
 var TodoSearch = require('TodoSearch');
 var uuid = require('node-uuid');
+var TodoAPI = require('TodoAPI');
 
 var TodoContainer = React.createClass({
 	
 	getInitialState: function() {
 		return {
-			todos: [
-				{
-					id: uuid(),
-					text: 'go to market',
-					completed: false
-				},
-				{
-					id: uuid(),
-					text: 'live life',
-					completed: true
-				}
-			],
+			todos: TodoAPI.getTodos(),
 			showCompleted: false,
 			searchTodo: ''
 		};	
@@ -43,6 +33,10 @@ var TodoContainer = React.createClass({
 		});
 	},
 
+	componentDidUpdate: function() {
+		TodoAPI.setTodos(this.state.todos);
+	},
+
 	handleToggle: function(id) {
 		var updatedTodos = this.state.todos.map((todo) => {
 			if(todo.id === id) {
@@ -54,11 +48,12 @@ var TodoContainer = React.createClass({
 	}, 
 
 	render: function(){
-		var {todos} = this.state;
+		var {todos, showCompleted, searchTodo} = this.state;
+		var filteredTodos = TodoAPI.filterTodos(todos, showCompleted, searchTodo);
 		return (
 			<div>
 				<TodoSearch onSearch={this.handleSearch}/>
-				<TodoList todos={todos} onToggle={this.handleToggle}/>
+				<TodoList todos={filteredTodos} onToggle={this.handleToggle}/>
 				<AddTodo onAddTodo={this.handleAddTodo}/>
 			</div>
 		);
